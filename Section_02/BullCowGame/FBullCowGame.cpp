@@ -1,4 +1,7 @@
 #include "FBullCowGame.h"
+#include <map>
+
+#define TMap std::map
 
 using int32 = int;
 
@@ -23,14 +26,17 @@ void FBullCowGame::Reset() {
 }
 
 EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const {
-	if (false) { //if guess is not isogram
-		return EGuessStatus::Not_Isogram;
+	if (Guess.length() != GetHiddenWordLength()) {
+		return EGuessStatus::Wrong_Length;
 	}
-	else if (false) { //if guess is not lowercase
+	else if (!IsAlphabetic(Guess)) {
+		return EGuessStatus::Not_Alphabetic;
+	}
+	else if (!IsLowercase(Guess)) {
 		return EGuessStatus::Not_Lowercase;
 	}
-	else if (Guess.length() != GetHiddenWordLength()) { //if length is wrong
-		return EGuessStatus::Wrong_Length;
+	else if (!IsIsogram(Guess)) {
+		return EGuessStatus::Not_Isogram;
 	}
 	else {
 		return EGuessStatus::OK;
@@ -66,4 +72,40 @@ FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess) {
 		bGameWon = false;
 	}
 	return BullCowCount;
+}
+
+bool FBullCowGame::IsAlphabetic(FString Guess) const {
+	//loop through each letter of guess
+	for (auto Letter : Guess) {
+		if (!isalpha(Letter)) { //if letter is not lower case return false
+			return false;
+		}
+	}
+	return true;
+}
+
+bool FBullCowGame::IsLowercase(FString Guess) const {
+	//loop through each letter of guess
+	for (auto Letter : Guess) {
+		if (!islower(Letter)) { //if letter is not lower case return false
+			return false;
+		}
+	}
+	return true;
+}
+
+bool FBullCowGame::IsIsogram(FString Guess) const {
+	//create map
+	TMap <char, bool> LetterSeen;
+	//loop through each letter of guess
+	for (auto Letter : Guess) {
+		Letter = tolower(Letter); //change to lowercase to remove implicit dependencies
+		if (LetterSeen[Letter]) { //if letter already exists return false
+			return false;
+		}
+		else { //add true to map to show letter has appeared
+			LetterSeen[Letter] = true;
+		}
+	}
+	return true;
 }

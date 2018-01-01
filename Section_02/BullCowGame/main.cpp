@@ -87,11 +87,14 @@ FText GetValidGuess() {
 		case EGuessStatus::Wrong_Length:
 			std::cout << "Please enter a " << BCGame.GetHiddenWordLength() << " letter word." << std::endl;
 			break;
-		case EGuessStatus::Not_Isogram:
-			std::cout << "Please enter a word with non repeating characters." << std::endl;
+		case EGuessStatus::Not_Alphabetic:
+			std::cout << "Please enter a word with letters from the english alphabet." << std::endl;
 			break;
 		case EGuessStatus::Not_Lowercase:
 			std::cout << "Please enter a word with all lowercase letters." << std::endl;
+			break;
+		case EGuessStatus::Not_Isogram:
+			std::cout << "Please enter a word with non repeating characters." << std::endl;
 			break;
 		default:
 			break;
