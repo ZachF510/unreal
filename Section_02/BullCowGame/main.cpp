@@ -77,7 +77,7 @@ FText GetValidGuess() {
 		int32 CurrentTry = BCGame.GetCurrentTry();
 
 		// get a guess from the player
-		std::cout << "Try " << CurrentTry << ". Enter your guess: ";
+		std::cout << "Try " << CurrentTry << " of " << BCGame.GetMaxTries() << ". Enter your guess: ";
 		std::getline(std::cin, Guess);
 
 		//check validity
@@ -85,21 +85,20 @@ FText GetValidGuess() {
 
 		switch (Status) {
 		case EGuessStatus::Wrong_Length:
-			std::cout << "Please enter a " << BCGame.GetHiddenWordLength() << " letter word." << std::endl;
+			std::cout << "Please enter a " << BCGame.GetHiddenWordLength() << " letter word." << std::endl << std::endl;
 			break;
 		case EGuessStatus::Not_Alphabetic:
-			std::cout << "Please enter a word with letters from the english alphabet." << std::endl;
+			std::cout << "Please enter a word with letters from the english alphabet." << std::endl << std::endl;
 			break;
 		case EGuessStatus::Not_Lowercase:
-			std::cout << "Please enter a word with all lowercase letters." << std::endl;
+			std::cout << "Please enter a word with all lowercase letters." << std::endl << std::endl;
 			break;
 		case EGuessStatus::Not_Isogram:
-			std::cout << "Please enter a word with non repeating characters." << std::endl;
+			std::cout << "Please enter a word with non repeating characters." << std::endl << std::endl;
 			break;
 		default:
 			break;
 		}
-		std::cout << std::endl;
 	} while (Status != EGuessStatus::OK);
 	return Guess;
 }
