@@ -16,9 +16,9 @@ void PrintGameSummary();
 FText GetValidGuess();
 bool AskToPlayAgain();
 
-FBullCowGame BCGame; // instantiate a new game
+FBullCowGame BCGame; //instantiate a new game
 
-					 // the entry point for our application
+//game loop
 int main() {
 	bool bPlayAgain = false;
 	do {
@@ -31,11 +31,18 @@ int main() {
 }
 
 
-// introduce the game
+//introduce the game
 void PrintIntro() {
-	std::cout << std::endl << "Welcome to Bulls and Cows, a fun word game." << std::endl;
-	std::cout << "Can you guess the " << BCGame.GetHiddenWordLength();;
-	std::cout << " letter isogram I'm thinking of?" << std::endl;
+	std::cout << "Welcome to Bulls and Cows, a fun word game.\n";
+	std::cout << std::endl;
+	std::cout << "          }   {         ___ " << std::endl;
+	std::cout << "          (o o)        (o o) " << std::endl;
+	std::cout << "   /-------\\ /          \\ /-------\\ " << std::endl;
+	std::cout << "  / | BULL |O            O| COW  | \\ " << std::endl;
+	std::cout << " *  |-,--- |              |------|  * " << std::endl;
+	std::cout << "    ^      ^              ^      ^ " << std::endl;
+	std::cout << "Can you guess the " << BCGame.GetHiddenWordLength();
+	std::cout << " letter isogram I'm thinking of?\n";
 	std::cout << std::endl;
 	return;
 }
@@ -44,11 +51,11 @@ void PrintIntro() {
 void PlayGame() {
 	BCGame.Reset();
 
-	// loop while the game is not won and there are tries remaining
+	//loop while the game is not won and there are tries remaining
 	while(!BCGame.IsGameWon() && BCGame.GetCurrentTry() <= BCGame.GetMaxTries()){
 		FText Guess = GetValidGuess();
 
-		// submit valid guess to the game, and receive counts
+		//submit valid guess to the game, and receive counts
 		FBullCowCount BullCowCount = BCGame.SubmitValidGuess(Guess);
 
 		std::cout << "Bulls = " << BullCowCount.Bulls;
@@ -76,7 +83,7 @@ FText GetValidGuess() {
 	do {
 		int32 CurrentTry = BCGame.GetCurrentTry();
 
-		// get a guess from the player
+		//get a guess from the player
 		std::cout << "Try " << CurrentTry << " of " << BCGame.GetMaxTries() << ". Enter your guess: ";
 		std::getline(std::cin, Guess);
 

@@ -3,6 +3,7 @@
 
 #define TMap std::map
 
+using FText = std::string;
 using int32 = int;
 
 FBullCowGame::FBullCowGame() { Reset(); }
@@ -44,24 +45,23 @@ EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const {
 	}
 }
 
-// receives a VALID guess, incriments try, and returns count
+//receives a valid guess, incriments try, and returns count
 FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess) {
 	MyCurrentTry++;
 	FBullCowCount BullCowCount;
 
 	int32 WordLength = MyHiddenWord.length(); //assume words are the same length
 
-	// loop through all letters in the hidden word
+	//loop through all letters in the hidden word
 	for (int32 HiddenChar = 0; HiddenChar < WordLength; HiddenChar++) {
-		// compare letters against the guess word
+		//compare letters against the guess word
 		for (int32 GuessChar = 0; GuessChar < WordLength; GuessChar++) {
-			// if they match then
 			if (Guess[GuessChar] == MyHiddenWord[HiddenChar]) {
-				if (HiddenChar == GuessChar) { // if they're in the same place
-					BullCowCount.Bulls++; // incriment bulls
+				if (HiddenChar == GuessChar) { //if they're in the same place
+					BullCowCount.Bulls++; //incriment bulls
 				}
 				else {
-					BullCowCount.Cows++; // must be a cow
+					BullCowCount.Cows++; //must be a cow
 				}
 			}
 		}
