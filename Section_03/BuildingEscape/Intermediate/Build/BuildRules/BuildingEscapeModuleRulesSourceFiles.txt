@@ -1,0 +1,3 @@
+C:\Users\Zach\source\repos\unreal\Section_03\BuildingEscape\Source\BuildingEscape\BuildingEscape.Build.cs
+C:\Users\Zach\source\repos\unreal\Section_03\BuildingEscape\Source\BuildingEscape.Target.cs
+C:\Users\Zach\source\repos\unreal\Section_03\BuildingEscape\Source\BuildingEscapeEditor.Target.cs
