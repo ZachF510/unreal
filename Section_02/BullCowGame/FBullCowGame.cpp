@@ -81,7 +81,7 @@ FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess) {
 bool FBullCowGame::IsAlphabetic(FString Guess) const {
 	//loop through each letter of guess
 	for (auto Letter : Guess) {
-		if (!isalpha(Letter)) { //if letter is not lower case return false
+		if (!isalpha(Letter)) { //if letter is not alphabetic return false
 			return false;
 		}
 	}
