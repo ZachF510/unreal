@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FBullCowGame.h"
+#include <random>
 #include <fstream>
 #include <string>
 #include <map>
@@ -13,6 +14,7 @@ using int32 = int;
 FBullCowGame::FBullCowGame() { Reset(); }
 
 int32 FBullCowGame::GetCurrentTry() const { return MyCurrentTry; }
+FString FBullCowGame::GetHiddenWord() const { return MyHiddenWord; }
 int32 FBullCowGame::GetHiddenWordLength() const { return MyHiddenWord.length(); }
 bool FBullCowGame::IsGameWon() const { return bGameWon; }
 
@@ -36,9 +38,12 @@ FString FBullCowGame::SelectRandomWord() {
 	Dictionary.open("isogram_dictionary.txt");
 	FString word;
 	FString hiddenWord;
-	int RandomLine = rand() % 37144 + 1;
+	std::random_device rd;     // only used once to initialise (seed) engine
+	std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+	std::uniform_int_distribution<int> uni(1, 37144); // guaranteed unbiased from https://stackoverflow.com/questions/5008804/generating-random-integer-from-a-range
+	auto RandomInt = uni(rng);
 	if (Dictionary.is_open()) {
-		for (int32 line = 0; line < RandomLine; line++) {
+		for (int32 line = 0; line < RandomInt; line++) {
 			std::getline(Dictionary, word);
 			hiddenWord = word;
 		}
