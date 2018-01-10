@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FBullCowGame.h"
+#include <fstream>
 #include <string>
 #include <map>
 
@@ -21,13 +22,29 @@ int32 FBullCowGame::GetMaxTries() const {
 }
 
 void FBullCowGame::Reset() {
-	const FString HIDDEN_WORD = "planet";
-	MyHiddenWord = HIDDEN_WORD;
+	MyHiddenWord = SelectRandomWord();
 
 	MyCurrentTry = 1;
 
 	bGameWon = false;
 	return;
+}
+
+FString FBullCowGame::SelectRandomWord() {
+	//for getting word from custon dictionary
+	std::ifstream Dictionary;
+	Dictionary.open("isogram_dictionary.txt");
+	FString word;
+	FString hiddenWord;
+	int RandomLine = rand() % 37144 + 1;
+	if (Dictionary.is_open()) {
+		for (int32 line = 0; line < RandomLine; line++) {
+			std::getline(Dictionary, word);
+			hiddenWord = word;
+		}
+	}
+	Dictionary.close();
+	return hiddenWord;
 }
 
 EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const {

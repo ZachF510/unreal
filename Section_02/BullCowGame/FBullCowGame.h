@@ -31,6 +31,7 @@ public:
 	EGuessStatus CheckGuessValidity(FString) const;
 
 	void Reset();
+	FString SelectRandomWord();
 	FBullCowCount SubmitValidGuess(FString);
 
 
