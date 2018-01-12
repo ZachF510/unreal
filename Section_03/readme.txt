@@ -1,1 +1,0 @@
-This folder contains the source code for my unreal escape the room game
