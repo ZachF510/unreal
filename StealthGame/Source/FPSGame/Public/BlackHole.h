@@ -7,30 +7,37 @@
 #include "BlackHole.generated.h"
 
 class USphereComponent;
+class UStaticMeshComponent;
 
 UCLASS()
-class FPSGAME_API ABlackHole : public AActor
-{
+class FPSGAME_API AFPSBlackHole : public AActor {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
-	ABlackHole();
+	AFPSBlackHole();
 
 protected:
-	UPROPERTY(VisibleAnywhere, Category = "Components")
-	UStaticMeshComponent* MeshComp;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
-	USphereComponent* SphereComp;
+		UStaticMeshComponent* MeshComp;
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	/* Inner sphere destroys the overlapping components */
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		USphereComponent* InnerSphereComponent;
 
-public:	
+	/* Outer sphere pulls components (that are physically simulating) towards the centre of the actor */
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		USphereComponent* OuterSphereComponent;
+
+	// Marked with ufunction to bind to overlap event
+	UFUNCTION()
+		void OverlapInnerSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
-	
+
+
 };
