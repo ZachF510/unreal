@@ -32,6 +32,15 @@ AFPSProjectile::AFPSProjectile()
 }
 
 
+// Called when the game starts or when spawned
+void AFPSProjectile::BeginPlay() {
+	Super::BeginPlay();
+
+	SetReplicates(true);
+	SetReplicateMovement(true);
+}
+
+
 void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	// Only add impulse and destroy projectile if we hit a physics
@@ -40,7 +49,8 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 	}
 
-	MakeNoise(1.0f, Instigator);
-
-	Destroy();
+	if (Role == ROLE_Authority){
+		MakeNoise(1.0f, Instigator);
+		Destroy();
+	}
 }

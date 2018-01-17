@@ -17,6 +17,8 @@ class AFPSProjectile : public AActor
 	GENERATED_BODY()
 
 protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 
 	/** Sphere collision component */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "Projectile")
