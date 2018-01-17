@@ -121,7 +121,7 @@ void AFPSAIGuard::Tick(float DeltaTime)
 	//patrol goal checks
 	if (CurrentPatrolPoint) {
 		AController* Controller = GetController();
-		if (!Controller->IsFollowingAPath() && GuardState == EAIState::Idle) {
+		if (Controller && !Controller->IsFollowingAPath() && GuardState == EAIState::Idle) {
 			MoveToNextPatrolPoint();
 		}
 	}
