@@ -18,34 +18,44 @@ AFPSGameMode::AFPSGameMode() {
 	GameStateClass = AFPSGameState::StaticClass();
 }
 
-void AFPSGameMode::CompleteMission(APawn* InstigatorPawn, bool bMissionSuccess) {
-	if (InstigatorPawn) {
-		AActor* NewViewTarget;
 
-		if (SpectatingViewpointClass) {
+
+void AFPSGameMode::CompleteMission(APawn* InstigatorPawn, bool bMissionSuccess)
+{
+	if (InstigatorPawn)
+	{
+		if (SpectatingViewpointClass)
+		{
 			TArray<AActor*> ReturnedActors;
 			UGameplayStatics::GetAllActorsOfClass(this, SpectatingViewpointClass, ReturnedActors);
 
-			//change view target if valid actor found
-			if (ReturnedActors.Num() > 0) {
-				NewViewTarget = ReturnedActors[0];
+			// Change viewtarget if any valid actor found
+			if (ReturnedActors.Num() > 0)
+			{
+				AActor* NewViewTarget = ReturnedActors[0];
 
-				APlayerController* PC = Cast<APlayerController>(InstigatorPawn->GetController());
-				if (PC) {
-					PC->SetViewTargetWithBlend(nullptr, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic);
+				for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; It++)
+				{
+					APlayerController* PC = It->Get();
+					if (PC)
+					{
+						PC->SetViewTargetWithBlend(NewViewTarget, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic);
+					}
 				}
-
 			}
 		}
-		else {
-			UE_LOG(LogTemp, Warning, TEXT("Spectating viewpoint class is nullptr."))
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("SpectatingViewpointClass is nullptr. Please update GameMode class with valid subclass. Cannot change spectating view target."));
 		}
 	}
 
 	AFPSGameState* GS = GetGameState<AFPSGameState>();
-	if (GS) {
+	if (GS)
+	{
 		GS->MulticastOnMissionComplete(InstigatorPawn, bMissionSuccess);
 	}
+
 
 	OnMissionCompleted(InstigatorPawn, bMissionSuccess);
 }
