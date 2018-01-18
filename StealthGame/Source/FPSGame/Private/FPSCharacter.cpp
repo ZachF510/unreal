@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/PawnNoiseEmitterComponent.h"
+#include "Net/UnrealNetwork.h"
 
 
 AFPSCharacter::AFPSCharacter()
@@ -50,6 +51,27 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+}
+
+void AFPSCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (!IsLocallyControlled()) {
+		FRotator NewRot = CameraComponent->RelativeRotation;
+		NewRot.Pitch = RemoteViewPitch * 360.0f / 255.0f;
+
+		if (NewRot.Pitch < 270.0f && NewRot.Pitch > 90.0f) {
+			if (NewRot.Pitch > 180.0f) {
+				NewRot.Pitch = 270.1f;
+			}
+			else {
+				NewRot.Pitch = 89.9f;
+			}
+		}
+
+		CameraComponent->SetRelativeRotation(NewRot);
+	}
 }
 
 
@@ -114,4 +136,11 @@ void AFPSCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(GetActorRightVector(), Value);
 	}
+}
+
+void AFPSCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> & OutLifetimeProps) const {
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AFPSCharacter, bIsCarryingObjective);
+
 }

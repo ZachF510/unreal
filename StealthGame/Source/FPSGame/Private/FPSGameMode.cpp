@@ -5,28 +5,24 @@
 #include "FPSCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
+#include "FPSGameState.h"
 
-AFPSGameMode::AFPSGameMode()
-{
+AFPSGameMode::AFPSGameMode() {
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/Blueprints/BP_Player"));
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
 
 	// use our custom HUD class
 	HUDClass = AFPSHUD::StaticClass();
+
+	GameStateClass = AFPSGameState::StaticClass();
 }
 
-void AFPSGameMode::CompleteMission(APawn* InstigatorPawn, bool bMissionSuccess)
-{
-	if (InstigatorPawn)
-	{
-		InstigatorPawn->DisableInput(nullptr);
-
+void AFPSGameMode::CompleteMission(APawn* InstigatorPawn, bool bMissionSuccess) {
+	if (InstigatorPawn) {
 		AActor* NewViewTarget;
 
 		if (SpectatingViewpointClass) {
-
-
 			TArray<AActor*> ReturnedActors;
 			UGameplayStatics::GetAllActorsOfClass(this, SpectatingViewpointClass, ReturnedActors);
 
@@ -44,6 +40,11 @@ void AFPSGameMode::CompleteMission(APawn* InstigatorPawn, bool bMissionSuccess)
 		else {
 			UE_LOG(LogTemp, Warning, TEXT("Spectating viewpoint class is nullptr."))
 		}
+	}
+
+	AFPSGameState* GS = GetGameState<AFPSGameState>();
+	if (GS) {
+		GS->MulticastOnMissionComplete(InstigatorPawn, bMissionSuccess);
 	}
 
 	OnMissionCompleted(InstigatorPawn, bMissionSuccess);
