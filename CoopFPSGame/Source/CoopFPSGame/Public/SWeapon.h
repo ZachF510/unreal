@@ -59,11 +59,11 @@ protected:
 
 	FTimerHandle TimerHandle_TimeBetweenShots;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	uint32 StartingAmmo;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
+	int32 StartingAmmo;
 
-
-	uint32 CurrentAmmo;
+	UPROPERTY(BlueprintReadOnly, Category = "Weapon")
+	int32 CurrentAmmo;
 
 	float LastFireTime;
 

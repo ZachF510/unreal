@@ -120,6 +120,7 @@ void ASWeapon::Fire()
 
 void ASWeapon::StartFire()
 {
+	//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, FString::FromInt(CurrentAmmo));
 	if (CurrentAmmo > 0)
 	{
 		float FirstDelay = FMath::Max(LastFireTime + TimeBetweenShots - GetWorld()->TimeSeconds, 0.0f);
