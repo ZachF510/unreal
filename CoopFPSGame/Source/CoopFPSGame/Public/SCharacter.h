@@ -9,7 +9,6 @@
 class UCameraComponent;
 class USpringArmComponent;
 class ASWeapon;
-class USHealthComponent;
 
 UCLASS()
 class COOPFPSGAME_API ASCharacter : public ACharacter
@@ -42,11 +41,6 @@ protected:
 
 	void Reload();
 
-	UFUNCTION()
-	void OnHealthChanged(USHealthComponent* HealthComp, float Health, float HealthDelta, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
-
-	bool bDied;
-
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Player")
 	ASWeapon* CurrentWeapon;
 
@@ -61,8 +55,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USpringArmComponent* SpringArmComp;
-
-	USHealthComponent HealthComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player")
 	bool bWantsToZoom;
