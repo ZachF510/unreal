@@ -19,6 +19,12 @@ public:
 	// Sets default values for this actor's properties
 	ASWeapon();
 
+	UFUNCTION(BlueprintCallable)
+	uint8 GetCurrentAmmo();
+
+	UFUNCTION(BlueprintCallable)
+	uint8 GetStartingAmmo();
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -76,5 +82,7 @@ public:
 	void StartFire();
 
 	void StopFire();
+
+	void Reload();
 	
 };

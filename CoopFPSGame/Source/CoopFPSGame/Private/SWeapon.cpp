@@ -30,6 +30,16 @@ ASWeapon::ASWeapon()
 	StartingAmmo = 30;
 }
 
+uint8 ASWeapon::GetCurrentAmmo()
+{
+	return CurrentAmmo;
+}
+
+uint8 ASWeapon::GetStartingAmmo()
+{
+	return StartingAmmo;
+}
+
 void ASWeapon::BeginPlay()
 {
 	Super::BeginPlay();
@@ -132,6 +142,11 @@ void ASWeapon::StartFire()
 void ASWeapon::StopFire()
 {
 	GetWorldTimerManager().ClearTimer(TimerHandle_TimeBetweenShots);
+}
+
+void ASWeapon::Reload()
+{
+	CurrentAmmo = StartingAmmo;
 }
 
 void ASWeapon::PlayFireEffects(FVector TraceEnd)

@@ -39,6 +39,9 @@ protected:
 
 	void StopFire();
 
+	void Reload();
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Player")
 	ASWeapon* CurrentWeapon;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player")
