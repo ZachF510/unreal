@@ -28,6 +28,8 @@ ASWeapon::ASWeapon()
 	RateOfFire = 600;
 
 	StartingAmmo = 30;
+
+	ReloadRate = 20;
 }
 
 uint8 ASWeapon::GetCurrentAmmo()
@@ -46,7 +48,11 @@ void ASWeapon::BeginPlay()
 
 	TimeBetweenShots = 60 / RateOfFire;
 
+	TimeToReload = 60 / ReloadRate;
+
 	CurrentAmmo = StartingAmmo;
+
+	bRealoadingWeapon = false;
 }
 
 void ASWeapon::Fire()
@@ -144,8 +150,19 @@ void ASWeapon::StopFire()
 	GetWorldTimerManager().ClearTimer(TimerHandle_TimeBetweenShots);
 }
 
-void ASWeapon::Reload()
+void ASWeapon::StartReload()
 {
+	if (!bRealoadingWeapon)
+	{
+		bRealoadingWeapon = true;
+		GetWorldTimerManager().SetTimer(TimerHandle_TimeToReload, this, &ASWeapon::StopReload, TimeToReload, true);
+	}
+}
+
+void ASWeapon::StopReload()
+{
+	bRealoadingWeapon = false;
+	GetWorldTimerManager().ClearTimer(TimerHandle_TimeToReload);
 	CurrentAmmo = StartingAmmo;
 }
 

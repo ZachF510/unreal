@@ -29,10 +29,10 @@ protected:
 
 	virtual void BeginPlay() override;
 
+	void PlayFireEffects(FVector TraceEnd);
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USkeletalMeshComponent* MeshComp;
-
-	void PlayFireEffects(FVector TraceEnd);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	TSubclassOf<UDamageType> DamageType;
@@ -57,6 +57,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	TSubclassOf<UCameraShake> FireCamShake;
+	
+	bool bRealoadingWeapon;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	float BaseDamage;
@@ -64,6 +66,8 @@ protected:
 	virtual void Fire();
 
 	FTimerHandle TimerHandle_TimeBetweenShots;
+
+	FTimerHandle TimerHandle_TimeToReload;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	int32 StartingAmmo;
@@ -74,15 +78,21 @@ protected:
 	float LastFireTime;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	float ReloadRate;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	float RateOfFire;
 
 	float TimeBetweenShots;
+
+	float TimeToReload;
 
 public:	
 	void StartFire();
 
 	void StopFire();
 
-	void Reload();
-	
+	void StartReload();
+
+	void StopReload();
 };
