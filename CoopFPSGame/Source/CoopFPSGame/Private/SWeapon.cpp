@@ -9,6 +9,7 @@
 #include "CoopFPSGame.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "TimerManager.h"
+#include "Net/UnrealNetwork.h"
 
 static int32 DebugWeaponDrawing = 0;
 FAutoConsoleVariableRef VARDebugWeaponDrawing(TEXT("COOP.DebugWeapons"), DebugWeaponDrawing, TEXT("Draw Debug Lines for Weapons"), ECVF_Cheat);
@@ -30,6 +31,8 @@ ASWeapon::ASWeapon()
 	StartingAmmo = 30;
 
 	ReloadRate = 20;
+
+	SetReplicates(true);
 }
 
 uint8 ASWeapon::GetCurrentAmmo()
@@ -57,6 +60,11 @@ void ASWeapon::BeginPlay()
 
 void ASWeapon::Fire()
 {
+	if (Role < ROLE_Authority)
+	{
+		ServerFire();
+	}
+
 	//calculate line trace
 	AActor* MyOwner = GetOwner();
 	if (MyOwner)
@@ -122,7 +130,10 @@ void ASWeapon::Fire()
 			DrawDebugLine(GetWorld(), EyeLocation, TraceEnd, FColor::White, false, 1.0f, 0, 1.0f);
 		}
 
-		PlayFireEffects(TracerEndPoint);
+		if (Role == ROLE_Authority)
+		{
+			HitScanTrace.TraceTo = TracerEndPoint;
+		}
 
 		LastFireTime = GetWorld()->TimeSeconds;
 
@@ -132,6 +143,22 @@ void ASWeapon::Fire()
 			StopFire();
 		}	
 	}
+}
+
+void ASWeapon::OnRep_HitScanTrace()
+{
+	//play cosmetic effects
+	PlayFireEffects(HitScanTrace.TraceTo);
+}
+
+void ASWeapon::ServerFire_Implementation()
+{
+	Fire();
+}
+
+bool ASWeapon::ServerFire_Validate()
+{
+	return true;
 }
 
 void ASWeapon::StartFire()
@@ -193,4 +220,11 @@ void ASWeapon::PlayFireEffects(FVector TraceEnd)
 			PC->ClientPlayCameraShake(FireCamShake);
 		}
 	}
+}
+
+void ASWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME_CONDITION(ASWeapon, HitScanTrace, COND_SkipOwner);
 }

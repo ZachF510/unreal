@@ -45,7 +45,7 @@ protected:
 	UFUNCTION()
 	void OnHealthChanged(USHealthComponent* OwningHealthComp, float Health, float HealthDelta, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Player")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Replicated, Category = "Player")
 	ASWeapon* CurrentWeapon;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player")
