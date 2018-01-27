@@ -23,7 +23,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = "Components")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	UStaticMeshComponent* MeshComp;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "Components")
@@ -69,11 +69,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "TrackerBot")
 	float SelfDamageInterval;
 
-	UPROPERTY(EditDefaultsOnly, Category = "TrackerBot")
-	float CurrentPowerLevel;
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "TrackerBot")
+	int32 CurrentPowerLevel;
 
-	UPROPERTY(EditDefaultsOnly, Category = "TrackerBot")
-	float MaxPowerLevel;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "TrackerBot")
+	int32 MaxPowerLevel;
 
 	FTimerHandle TimerHandle_SelfDamage;
 
