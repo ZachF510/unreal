@@ -179,12 +179,18 @@ bool ASWeapon::ServerFire_Validate()
 
 void ASWeapon::StartFire()
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, FString::FromInt(CurrentAmmo));
 	if (CurrentAmmo > 0)
 	{
 		float FirstDelay = FMath::Max(LastFireTime + TimeBetweenShots - GetWorld()->TimeSeconds, 0.0f);
-
-		GetWorldTimerManager().SetTimer(TimerHandle_TimeBetweenShots, this, &ASWeapon::Fire, TimeBetweenShots, true, FirstDelay);
+		if (FirstDelay == 0.0f)
+		{
+			Fire();
+			GetWorldTimerManager().SetTimer(TimerHandle_TimeBetweenShots, this, &ASWeapon::Fire, TimeBetweenShots, true, TimeBetweenShots);
+		}
+		else
+		{
+			GetWorldTimerManager().SetTimer(TimerHandle_TimeBetweenShots, this, &ASWeapon::Fire, TimeBetweenShots, true, FirstDelay);
+		}
 	}
 }
 
