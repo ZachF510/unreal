@@ -38,12 +38,12 @@ ASWeapon::ASWeapon()
 	MinNetUpdateFrequency = 33.0f;
 }
 
-uint8 ASWeapon::GetCurrentAmmo()
+int32 ASWeapon::GetCurrentAmmo()
 {
 	return CurrentAmmo;
 }
 
-uint8 ASWeapon::GetStartingAmmo()
+int32 ASWeapon::GetStartingAmmo()
 {
 	return StartingAmmo;
 }

@@ -15,10 +15,10 @@ public:
 	// Sets default values for this actor's properties
 	ASPowerupActor();
 
-	void ActivatePowerup();
+	void ActivatePowerup(AActor* ActiveFor);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Powerup")
-	void OnActivated();
+	void OnActivated(AActor* ActiveFor);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Powerup")
 	void OnPowerUpTicked();

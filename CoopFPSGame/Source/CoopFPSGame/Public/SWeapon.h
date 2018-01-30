@@ -34,10 +34,10 @@ public:
 	ASWeapon();
 
 	UFUNCTION(BlueprintCallable)
-	uint8 GetCurrentAmmo();
+	int32 GetCurrentAmmo();
 
 	UFUNCTION(BlueprintCallable)
-	uint8 GetStartingAmmo();
+	int32 GetStartingAmmo();
 
 protected:
 
@@ -94,7 +94,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	int32 StartingAmmo;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Weapon")
+	UPROPERTY(BlueprintReadWrite, Category = "Weapon")
 	int32 CurrentAmmo;
 
 	UPROPERTY(ReplicatedUsing=OnRep_HitScanTrace)
@@ -108,6 +108,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	float RateOfFire;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Weapon")
 	float TimeBetweenShots;
 
 	float TimeToReload;
