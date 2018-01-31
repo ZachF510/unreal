@@ -34,10 +34,10 @@ public:
 	ASWeapon();
 
 	UFUNCTION(BlueprintCallable)
-	int32 GetCurrentAmmo();
+	int32 GetCurrentAmmo() const;
 
 	UFUNCTION(BlueprintCallable)
-	int32 GetStartingAmmo();
+	int32 GetStartingAmmo() const;
 
 protected:
 
