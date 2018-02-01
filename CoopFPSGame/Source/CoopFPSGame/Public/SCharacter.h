@@ -20,6 +20,20 @@ public:
 	// Sets default values for this character's properties
 	ASCharacter();
 
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void StartFire();
+
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void StopFire();
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	virtual FVector GetPawnViewLocation() const override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -35,10 +49,6 @@ protected:
 	void BeginZoom();
 
 	void EndZoom();
-
-	void StartFire();
-
-	void StopFire();
 
 	void Reload();
 
@@ -75,14 +85,5 @@ protected:
 	float ZoomInterpSpeed;
 
 	float DefaultFOV;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	virtual FVector GetPawnViewLocation() const override;
 	
 };

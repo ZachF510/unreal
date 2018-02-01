@@ -37,7 +37,7 @@ ASTrackerBot::ASTrackerBot()
 	RequiredDistanceToTarget = 100;
 
 	ExplosionDamage = 100;
-	ExplosionRadius = 40;
+	ExplosionRadius = 400;
 
 	SelfDamageInterval = 0.25f;
 
