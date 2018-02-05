@@ -19,6 +19,11 @@ public:
 	// Sets default values for this pawn's properties
 	ASTrackerBot();
 
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -77,6 +82,8 @@ protected:
 
 	FTimerHandle TimerHandle_SelfDamage;
 
+	FTimerHandle TimerHandle_RefreshPath;
+
 	void DamageSelf();
 
 	UPROPERTY(EditDefaultsOnly, Category = "TrackerBot")
@@ -85,10 +92,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "TrackerBot")
 	USoundCue* ExplodeSound;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+	void RefreshPath();
 
 };

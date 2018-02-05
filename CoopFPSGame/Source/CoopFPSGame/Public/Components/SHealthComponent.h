@@ -18,6 +18,12 @@ public:
 	// Sets default values for this component's properties
 	USHealthComponent();
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "HealComponent")
+	uint8 TeamNum;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Components")
+	static bool IsFriendly(AActor* ActorA, AActor* ActorB);
+
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnHealthChangedSignature OnHealthChanged;
 
